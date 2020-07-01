@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.function.ServerResponse;
 
 import app.entity.MedicineEntity;
+import app.model.MedicineModel;
 import app.service.MedicineService;
 
 @RestController
@@ -34,4 +36,23 @@ public class MedicineEntityController {
 	public MedicineEntity getById(@PathVariable String id) {
 		return mservice.getById(id).get();
 	}
+	
+	@GetMapping("detAll")
+	public boolean  deleteAll() {
+		 mservice.detAll();
+		 return true;
+	}
+	
+	@GetMapping("getMedicineWithCategory/{id}")
+	public MedicineModel getMedicineWithCategory(@PathVariable String id) {
+		MedicineModel m = new MedicineModel();
+		if(!id.equals(null)) {
+			m = mservice.getMedicineWithCategory(id);
+		}else {
+			ServerResponse.notFound();
+		}
+		
+		return m;
+	}
+	
 }
