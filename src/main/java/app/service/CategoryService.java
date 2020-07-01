@@ -17,11 +17,8 @@ public class CategoryService {
 	@Autowired private ProductEntityRepository prrepo;
 	
 	public CategoryEntity addCategory(CategoryEntity c) {
-		
 		CategoryEntity result = crepo.insert(c);
-		
 		return result;
-		
 	}
 	
 	public List<CategoryEntity> getAll(){
