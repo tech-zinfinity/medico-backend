@@ -7,19 +7,28 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection="CATEGORY")
-public class CategoryEntity {
-
-	@Id private String id;
+@Document(collection="PRODUCT")
+public class ProductEntity {
+	
+	@Id
+	private String id;
+	
 	private String name;
-	private String description;
+	private String decription;
+	private String category_id;
 	private String image;
-	private int count;
+	private String manf_loc;
+	private boolean in_stock;
+	private int rating;
+	private int potency;
+	private int quantity;
 	
 	@Builder.Default
 	private boolean active = false;
+	
 }

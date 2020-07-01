@@ -15,6 +15,7 @@ import org.springframework.web.servlet.function.ServerResponse;
 
 import app.entity.CategoryEntity;
 import app.entity.MedicineEntity;
+import app.model.UpdateCategoryStatusWithProductsRequest;
 import app.service.CategoryService;
 
 @RestController
@@ -36,5 +37,10 @@ public class CategoryEntityController {
 	@GetMapping("getAll")
 	public List<CategoryEntity> getAllCategory() {
 		return cService.getAll();
+	}
+	
+	@PostMapping("updateStatusOfCategoryWithProduct")
+	public String updateStatusOfCategoryWithProduct(@RequestBody UpdateCategoryStatusWithProductsRequest request) {
+		return cService.updateStatusOfProductWithCategory(request.getCategory_id(), request.isStatus(), request.getPrList());
 	}
 }
