@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.function.ServerResponse;
 
 import app.entity.MedicineEntity;
+import app.exception.FileNotFoundInDatabase;
+import app.model.DummyModel;
 import app.model.MedicineModel;
 import app.service.MedicineService;
 
@@ -43,16 +45,15 @@ public class MedicineEntityController {
 		 return true;
 	}
 	
-	@GetMapping("getMedicineWithCategory/{id}")
-	public MedicineModel getMedicineWithCategory(@PathVariable String id) {
+	@PostMapping("getMedicineWithCategory")
+	public MedicineModel getMedicineWithCategory(@RequestBody DummyModel request) throws FileNotFoundInDatabase {
 		MedicineModel m = new MedicineModel();
-		if(!id.equals(null)) {
-			m = mservice.getMedicineWithCategory(id);
+		if((request.getId() == null)) {
+			throw new FileNotFoundInDatabase();
 		}else {
-			ServerResponse.notFound();
+			m = mservice.getMedicineWithCategory(request.getId());
 		}
-		
-		return m;
+		return m; 
 	}
 	
 }

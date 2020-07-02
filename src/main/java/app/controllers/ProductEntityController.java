@@ -1,5 +1,6 @@
 package app.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.function.ServerResponse;
 
 import app.entity.ProductEntity;
+import app.exception.DataNotFoundInDatabaseException;
+import app.model.DummyModel;
 import app.model.MedicineModel;
 import app.repository.ProductEntityRepository;
 import app.service.ProductService;
@@ -42,7 +45,7 @@ public class ProductEntityController {
 	}
 	
 	@GetMapping("deleteProductbyId/{id}")
-	public boolean getProductbyId(@PathVariable String id) {
+	public boolean getProductbyId(@PathVariable String id) throws DataNotFoundInDatabaseException {
 		var result = false;
 		if(!id.equals(null)) {
 		  if(pservice.deleteProductbyId(id)) {
@@ -51,16 +54,22 @@ public class ProductEntityController {
 			  result = false;
 		  }  
 		}else {
-			ServerResponse.notFound();
-			return false;
+			throw new DataNotFoundInDatabaseException();
 		}
 		return result;
 			
 	}
 	
-	@GetMapping("getProductsByCategoryId/{id}")
-	public List<ProductEntity> getProductsByCategoryId(@PathVariable String id){
-		return this.prrepo.getBycategoryid(id).get();
+	@PostMapping("getProductsByCategoryId")
+	public List<ProductEntity> getProductsByCategoryId(@RequestBody DummyModel request) throws DataNotFoundInDatabaseException{
+		List<ProductEntity> p = new ArrayList<ProductEntity>();
+		System.out.println("coming here "+request);
+		if(request.getId() == null) {
+			throw new DataNotFoundInDatabaseException();
+		}else {
+			p = this.prrepo.getBycategoryid(request.getId()).get();
+		}
+		return p;
 	}
 	
 
